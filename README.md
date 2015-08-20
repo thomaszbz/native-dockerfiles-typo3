@@ -39,7 +39,7 @@ The content of this repository is [MIT-licensed](./LICENSE).
 
 ### Checkout sources with git
 
-Clone source code repositories (for later changes you might want to go for the ssh protocol instead)
+Clone source code repositories (for later pushes you might want to go for the ssh protocol instead)
 
     cd /path/to/workspace
     git clone https://github.com/thomaszbz/native-dockerfiles-typo3.git
@@ -116,7 +116,7 @@ Start Apache web server:
 
     docker exec -it typo3 service apache2 start
 
-Enable install tool:
+Enable TYPO3's [install tool](https://docs.typo3.org/typo3cms/SecurityGuide/GuidelinesIntegrators/InstallTool/Index.html):
 
     docker exec -it --user="www-data" typo3 touch /var/www/typo3/typo3conf/ENABLE_INSTALL_TOOL
 
@@ -167,14 +167,14 @@ Delete image:
 
     docker rmi 2bis10/typo3
 
-## License and Contribution
-
-The content of this repository is [MIT-licensed](./LICENSE).
-In case you want to make contributions I assume that the [MIT-license](./LICENSE) also applies for the code you provide.
-
 ## Limitations
 
 The simple approach of this project might or might not be usable for everybody. If you want to use a more
 sophisticated approach you might want to have a look at Markus Blaschke's
 [TYPO3-docker-boilerplate](https://github.com/webdevops/TYPO3-docker-boilerplate) which provides tons of
 additional features and runs on Windows and OSX.
+
+## Copyright, license and contribution
+
+&copy; 2015 Thomas Mayer. The content of this repository is [MIT-licensed](./LICENSE).
+In case you want to make contributions I assume that the [MIT-license](./LICENSE) also applies for the code you provide.
