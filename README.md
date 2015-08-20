@@ -1,9 +1,13 @@
 # Create Docker test containers for TYPO3 CMS
 
-This repository provides Dockerfiles to create basic test environments for TYPO3 CMS developers.
+![License MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)
+[![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/thomaszbz/native-dockerfiles-typo3.svg)](https://isitmaintained.com/project/thomaszbz/native-dockerfiles-typo3 "Average time to resolve an issue")
+[![Percentage of issues still open](https://isitmaintained.com/badge/open/thomaszbz/native-dockerfiles-typo3.svg)](https://isitmaintained.com/project/thomaszbz/native-dockerfiles-typo3 "Percentage of issues still open")
+
+This repository provides Dockerfiles to create basic test environments for TYPO3 CMS developers and integrators.
 
 This manual describes how to create a Docker image and a running Docker container to test TYPO3 CMS
-and TYPO3 extensions against a running instance of TYPO3 CMS.
+and TYPO3 extensions against a running instance of [TYPO3 CMS](https://typo3.org/).
 
 This manual is written for an ubuntu 14.04.3 host system with Linux kernel version 3.19.
 It should also apply to most Debian-based systems with a recent Linux kernel. Other distros might require
@@ -25,6 +29,7 @@ The content of this repository is [MIT-licensed](./LICENSE).
 
 * Provisions a Docker image which can run a TYPO3 CMS instance (all tests of TYPO3's install tool go green)
 * Provides very fast file shares which are mounted by the container
+* Allows you to edit your project's source code in your IDE without having to sync files (via ssh or ftp)
 * Allows to add one or multiple TYPO3 extensions via file share
 * Provides a user with name ``webadmin`` for the UID/GID mapping to your host system user (your UID/GID)
 * Minimalistic approach using Docker's basic provisioning (no Vagrant/Chef/Puppet/etc. required) and run by docker natively
@@ -34,7 +39,7 @@ The content of this repository is [MIT-licensed](./LICENSE).
 
 ### Checkout sources with git
 
-Clone source code repositories (for later changes you might want to go for ssh URLs instead)
+Clone source code repositories (for later changes you might want to go for the ssh protocol instead)
 
     cd /path/to/workspace
     git clone https://github.com/thomaszbz/native-dockerfiles-typo3.git
@@ -137,21 +142,30 @@ Start container with interactive shell:
 
     docker start -i typo3
 
-Start container:
+Boot container:
 
     docker start typo3
 
-Start container:
+Shut down container:
 
     docker stop typo3
+
+List containers:
+
+    docker ps -a
+
+Destroy container:
+
+    docker rm typo3
+
 
 List images:
 
     docker images
 
-List containers:
+Delete image:
 
-    docker ps -a
+    docker rmi 2bis10/typo3
 
 ## License and Contribution
 
