@@ -1,20 +1,20 @@
 # Create Docker test containers for TYPO3 CMS
 
-This repository provides Dockerfiles to create basic test environments for TYPO3 CMS developers
+This repository provides Dockerfiles to create basic test environments for TYPO3 CMS developers.
 
 This manual describes how to create a Docker image and a running Docker container to test TYPO3 CMS
 and TYPO3 extensions against a running instance of TYPO3 CMS.
 
 This manual is written for an ubuntu 14.04.3 host system with Linux kernel version 3.19.
-It should also apply to most debian-based systems with a recent Linux kernel. Other distros might require
+It should also apply to most Debian-based systems with a recent Linux kernel. Other distros might require
 minor changes. Other operating systems than GNU/Linux are not covered by this manual (e. g. Windows, OSX).
 
 In this manual, the Docker container is run natively by the docker daemon without using any further virtualization
 technology (e. g. vmware, VirtualBox, KVM, etc.). Instead, isolation happens using the infrastructure
-of the Linux kernel which renders to a container with very fast file shares (which you can edit on your disk
+of the Linux kernel which renders a container with very fast file shares (which you can edit on your disk
 in an IDE of your choice).
 
-All ``docker`` commands of this manual require root privileges for execution. 
+All ``docker`` commands of this manual require root privileges for execution.
 
 Keep in mind that running Docker natively might not be secure enough for production environments.
 
@@ -27,6 +27,8 @@ The content of this repository is [MIT-licensed](./LICENSE).
 * Provides very fast file shares which are mounted by the container
 * Allows to add one or multiple TYPO3 extensions via file share
 * Provides a user with name ``webadmin`` for the UID/GID mapping to your host system user (your UID/GID)
+* Minimalistic approach using Docker's basic provisioning (no Vagrant/Chef/Puppet/etc. required) and run by docker natively
+  (without further virtualization technology like vmware, VirtualBox, KVM, etc.)
 
 ## Prerequisites
 
@@ -47,7 +49,7 @@ Check out a version you want to run your tests against
 
 ### Install Docker
 
-Install Docker 1.8.1+ on an ubuntu 14.04.3 host system (as root user):
+[Install Docker](http://docs.docker.com/installation/) 1.8.1+ on an ubuntu 14.04.3 host system (as root user):
 
     apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
     echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sources.list.d/docker-testing-trusty.list
@@ -139,6 +141,10 @@ Start container:
 
     docker start typo3
 
+Start container:
+
+    docker stop typo3
+
 List images:
 
     docker images
@@ -150,7 +156,7 @@ List containers:
 ## License and Contribution
 
 The content of this repository is [MIT-licensed](./LICENSE).
-In case you want to make contributions I assume that the MIT-license also applies for the code you provide.
+In case you want to make contributions I assume that the [MIT-license](./LICENSE) also applies for the code you provide.
 
 ## Limitations
 
