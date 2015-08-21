@@ -172,7 +172,7 @@ Delete image:
 The simple approach of this project might or might not be usable for everybody. If you want to use a more
 sophisticated approach you might want to have a look at Markus Blaschke's
 [TYPO3-docker-boilerplate](https://github.com/webdevops/TYPO3-docker-boilerplate) which provides tons of
-additional features and runs on Windows and OSX.
+additional features and runs with multiple operation systems including GNU/Linux, Windows and OSX.
 
 ## Copyright, license and contribution
 
