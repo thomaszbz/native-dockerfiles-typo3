@@ -44,7 +44,7 @@ RUN echo "<?php\n\$GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLocale']='en_US.UTF-
 # Create TYPO3's symlink structure. These are dead links until we mount the file shares (which will be done
 # after the provision has completed).
 
-RUN cd /var/www/typo3;ln -s ../../webadmin/typo3_src typo3_src;ln -s typo3_src/index.php index.php;ln -s typo3_src/typo3 typo3;ln -s typo3_src/composer.json;ln -s typo3_src/composer.lock
+RUN cd /var/www/typo3 && ln -s ../../webadmin/typo3_src typo3_src && ln -s typo3_src/index.php index.php && ln -s typo3_src/typo3 typo3 && ln -s typo3_src/composer.json && ln -s typo3_src/composer.lock
 
 # Give webadmin read and write access to DocumentRoot directory structure
 # This has no effect to files in the file share which are not mounted at this time.
@@ -132,7 +132,7 @@ RUN sed --in-place 's/#NEXT#/\n\t<\/Directory>/g' /etc/apache2/sites-available/0
 
 RUN sed --in-place 's/\/var\/www\/html/\/var\/www\/typo3/g' /etc/apache2/sites-available/default-ssl.conf
 
-RUN chgrp -R www-data /var/www/typo3; chmod 775 /var/www/typo3; chgrp -R www-data /var/www/typo3/typo3conf; chmod -R 775 /var/www/typo3/typo3conf
+RUN chgrp -R www-data /var/www/typo3 && chmod 775 /var/www/typo3 && chgrp -R www-data /var/www/typo3/typo3conf && chmod -R 775 /var/www/typo3/typo3conf
 
 # apcu cache gets 128MB of memory (default was 32 MB)
 
