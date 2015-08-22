@@ -63,9 +63,10 @@ RUN chown -R webadmin:webadmin /var/www/typo3
 RUN echo "mysql-server-5.5 mysql-server/root_password password {{password}}" | debconf-set-selections
 RUN echo "mysql-server-5.5 mysql-server/root_password_again password {{password}}" | debconf-set-selections
 
-# Update operating system
+# Update apt sources and installed packages
 
 RUN apt-get update && \
+apt-get install -y --force-yes apt-utils && \
 apt-get upgrade -y --force-yes
 
 # Create and configure locales
