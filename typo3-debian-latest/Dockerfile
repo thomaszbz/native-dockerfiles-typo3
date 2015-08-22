@@ -7,9 +7,6 @@ MAINTAINER Thomas Mayer "thomas.mayer@2bis10.de"
 
 LABEL Description="Provides basic test environment for TYPO3 CMS developers"
 
-# needed for apt-get, but should not be done in a persistant way #4
-ENV DEBIAN_FRONTEND=noninteractive
-
 # IMPORTANT: replace "1000" with your UID/GID (must correspond to file share's user).
 # Your UID/GID will render the webadmin to have ownership of the files in the context of the docker guest system.
 
@@ -65,13 +62,13 @@ RUN echo "mysql-server-5.5 mysql-server/root_password_again password {{password}
 
 # Update apt sources and installed packages
 
-RUN apt-get update && \
-apt-get install -y --force-yes apt-utils && \
-apt-get upgrade -y --force-yes
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes apt-utils && \
+DEBIAN_FRONTEND=noninteractive apt-get upgrade -y --force-yes
 
 # Create and configure locales
 
-RUN apt-get install -y --force-yes locales
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes locales
 ENV LANGUAGE=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
@@ -88,20 +85,20 @@ update-locale
 
 # Install basic packages every GNU/Linux developer system should have
 
-RUN apt-get install -y --force-yes wget curl net-tools vim git man-db inotify-tools locate
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes wget curl net-tools vim git man-db inotify-tools locate
 
 # Install MySQL database packages
 
-RUN apt-get install -y --force-yes mysql-server mysql-client
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes mysql-server mysql-client
 
 # Install Apache webserver packages
 
-RUN apt-get install -y --force-yes apache2 apache2-utils
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes apache2 apache2-utils
 
 # Install PHP packages
 
-RUN apt-get install -y --force-yes php5 php5-cli libapache2-mod-php5 php5-mysqlnd php5-curl php5-gd php5-apcu
-RUN apt-get install -y --force-yes graphicsmagick
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes php5 php5-cli libapache2-mod-php5 php5-mysqlnd php5-curl php5-gd php5-apcu
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes graphicsmagick
 
 # Configure Apache default vHost
 
