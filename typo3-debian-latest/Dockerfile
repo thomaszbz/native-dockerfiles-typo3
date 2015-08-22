@@ -41,16 +41,15 @@ RUN mkdir -p /var/www/typo3/typo3conf/ext
 
 RUN echo "<?php\n\$GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLocale']='en_US.UTF-8';\n\$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_version_5']='gm';" > /var/www/typo3/typo3conf/AdditionalConfiguration.php
 
-# Give web server read and write access to DocumentRoot directory structure
-# This has no effect to files in the file share which are not mounted at this time.
-# www-data _needs_ write access to the directories we created until here.
-
-RUN chown -R www-data:www-data /var/www/typo3
-
 # Create TYPO3's symlink structure. These are dead links until we mount the file shares (which will be done
 # after the provision has completed).
 
 RUN cd /var/www/typo3;ln -s ../../webadmin/typo3_src typo3_src;ln -s typo3_src/index.php index.php;ln -s typo3_src/typo3 typo3;ln -s typo3_src/composer.json;ln -s typo3_src/composer.lock
+
+# Give webadmin read and write access to DocumentRoot directory structure
+# This has no effect to files in the file share which are not mounted at this time.
+
+RUN chown -R webadmin:webadmin /var/www/typo3
 
 # Make sure we are not asked for a MySQL password while we provision
 
@@ -133,9 +132,7 @@ RUN sed --in-place 's/#NEXT#/\n\t<\/Directory>/g' /etc/apache2/sites-available/0
 
 RUN sed --in-place 's/\/var\/www\/html/\/var\/www\/typo3/g' /etc/apache2/sites-available/default-ssl.conf
 
-# TODO: next line is obsolete?
-
-RUN mkdir -p /var/www/typo3; chgrp www-data /var/www/typo3; chmod 775 /var/www/typo3
+RUN chgrp -R www-data /var/www/typo3; chmod 775 /var/www/typo3; chgrp -R www-data /var/www/typo3/typo3conf; chmod -R 775 /var/www/typo3/typo3conf
 
 # apcu cache gets 128MB of memory (default was 32 MB)
 
