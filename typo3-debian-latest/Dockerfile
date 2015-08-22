@@ -39,12 +39,19 @@ RUN mkdir -p /var/www/typo3/typo3conf/ext
 # Basic settings for TYPO3's install tool in file AdditionalConfiguration.php
 # If you want to edit these values values you need to remove this file first (or parts of it).
 
-RUN echo "<?php\n\$GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLocale']='en_US.UTF-8';\n\$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_version_5']='gm';" > /var/www/typo3/typo3conf/AdditionalConfiguration.php
+RUN echo "<?php\n\$GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLocale']='en_US.UTF-8';\
+\n\$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_version_5']='gm';\
+\n" > /var/www/typo3/typo3conf/AdditionalConfiguration.php
 
 # Create TYPO3's symlink structure. These are dead links until we mount the file shares (which will be done
 # after the provision has completed).
 
-RUN cd /var/www/typo3 && ln -s ../../webadmin/typo3_src typo3_src && ln -s typo3_src/index.php index.php && ln -s typo3_src/typo3 typo3 && ln -s typo3_src/composer.json && ln -s typo3_src/composer.lock
+RUN cd /var/www/typo3 && \
+ln -s ../../webadmin/typo3_src typo3_src && \
+ln -s typo3_src/index.php index.php && \
+ln -s typo3_src/typo3 typo3 && \
+ln -s typo3_src/composer.json && \
+ln -s typo3_src/composer.lock
 
 # Give webadmin read and write access to DocumentRoot directory structure
 # This has no effect to files in the file share which are not mounted at this time.
@@ -58,8 +65,8 @@ RUN echo "mysql-server-5.5 mysql-server/root_password_again password {{password}
 
 # Update operating system
 
-RUN apt-get update
-RUN apt-get upgrade -y --force-yes
+RUN apt-get update && \
+apt-get upgrade -y --force-yes
 
 # Create and configure locales
 
@@ -68,14 +75,15 @@ ENV LANGUAGE=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 ENV LC_TYPE=en_US.UTF-8
-RUN echo 'en_US.UTF-8' > /etc/default/locale
-RUN echo 'LANGUAGE=en_US.UTF-8' >> /etc/environment
-RUN echo 'LC_ALL=en_US.UTF-8' >> /etc/environment
-RUN echo 'LANG=en_US.UTF-8' >> /etc/environment
-RUN echo 'LC_TYPE=en_US.UTF-8' >> /etc/environment
-RUN sed --in-place 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen
-RUN locale-gen
-RUN update-locale
+
+RUN echo 'en_US.UTF-8' > /etc/default/locale && \
+echo 'LANGUAGE=en_US.UTF-8' >> /etc/environment && \
+echo 'LC_ALL=en_US.UTF-8' >> /etc/environment && \
+echo 'LANG=en_US.UTF-8' >> /etc/environment && \
+echo 'LC_TYPE=en_US.UTF-8' >> /etc/environment && \
+sed --in-place 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen && \
+locale-gen && \
+update-locale
 
 # Install basic packages every GNU/Linux developer system should have
 
@@ -98,41 +106,20 @@ RUN apt-get install -y --force-yes graphicsmagick
 
 #   DocumentRoot /var/www/typo3
 
-RUN sed --in-place 's/\/var\/www\/html/\/var\/www\/typo3#NEXT#/g' /etc/apache2/sites-available/000-default.conf
+RUN sed --in-place 's!/var/www/html!/var/www/typo3\
+\n\t<Directory /var/www/typo3>\
+\n\t\t<IfModule mod_php5.c>\
+\n\t\t\tphp_admin_value upload_max_filesize "10M"\
+\n\t\t\tphp_admin_value post_max_size "15M"\
+\n\t\t\tphp_admin_value max_execution_time "240"\
+\n\t\t</IfModule>\
+\n\t</Directory>\
+!g' /etc/apache2/sites-available/000-default.conf
 
-#   <Directory /var/www/typo3>
-
-RUN sed --in-place 's/#NEXT#/\n\t<Directory \/var\/www\/typo3>#NEXT#/g' /etc/apache2/sites-available/000-default.conf
-
-#       <IfModule mod_php5.c>
-
-RUN sed --in-place 's/#NEXT#/\n\t\t<IfModule mod_php5.c>#NEXT#/g' /etc/apache2/sites-available/000-default.conf
-
-#           php_admin_value upload_max_filesize "10M"
-
-RUN sed --in-place 's/#NEXT#/\n\t\t\tphp_admin_value upload_max_filesize "10M"#NEXT#/g' /etc/apache2/sites-available/000-default.conf
-
-#           php_admin_value post_max_size "15M"
-
-RUN sed --in-place 's/#NEXT#/\n\t\t\tphp_admin_value post_max_size "15M"#NEXT#/g' /etc/apache2/sites-available/000-default.conf
-
-#           php_admin_value max_execution_time "240"
-
-RUN sed --in-place 's/#NEXT#/\n\t\t\tphp_admin_value max_execution_time "240"#NEXT#/g' /etc/apache2/sites-available/000-default.conf
-
-#       </IfModule>
-
-RUN sed --in-place 's/#NEXT#/\n\t\t<\/IfModule>#NEXT#/g' /etc/apache2/sites-available/000-default.conf
-
-#   </Directory>
-
-RUN sed --in-place 's/#NEXT#/\n\t<\/Directory>/g' /etc/apache2/sites-available/000-default.conf
-
-#   <Directory /var/www/typo3>  TODO: also set other settings for HTTPS
-
-RUN sed --in-place 's/\/var\/www\/html/\/var\/www\/typo3/g' /etc/apache2/sites-available/default-ssl.conf
-
-RUN chgrp -R www-data /var/www/typo3 && chmod 775 /var/www/typo3 && chgrp -R www-data /var/www/typo3/typo3conf && chmod -R 775 /var/www/typo3/typo3conf
+RUN chgrp -R www-data /var/www/typo3 && \
+chmod 775 /var/www/typo3 && \
+chgrp -R www-data /var/www/typo3/typo3conf && \
+chmod -R 775 /var/www/typo3/typo3conf
 
 # apcu cache gets 128MB of memory (default was 32 MB)
 
