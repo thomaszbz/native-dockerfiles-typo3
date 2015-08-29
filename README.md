@@ -106,7 +106,7 @@ The created container should also keep running in detached mode:
 
 Install or update TYPO3 CMS dependencies to the pinned version in the repository:
 
-    docker exec -it  --user="webadmin" typo3 /bin/bash -c 'cd /var/webadmin/typo3_src && rm -Rf vendor && composer install'
+    docker exec -it  --user="webadmin" typo3 /bin/bash -c 'cd /var/webadmin/typo3_src && rm -Rf vendor && composer install -o'
 
 Start MySQL:
 
