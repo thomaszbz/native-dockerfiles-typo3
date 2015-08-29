@@ -122,8 +122,8 @@ Start Apache web server:
 
 Enable TYPO3's [install tool](https://docs.typo3.org/typo3cms/SecurityGuide/GuidelinesIntegrators/InstallTool/Index.html):
 
-    docker exec -it --user="www-data" typo3 touch /var/www/typo3/typo3conf/ENABLE_INSTALL_TOOL # TYPO3 6.2
-    docker exec -it --user="www-data" typo3 touch /var/www/typo3/FIRST_INSTALL # TYPO3 7
+    docker exec -it --user="www-data" typo3 touch /var/www/typo3/typo3conf/ENABLE_INSTALL_TOOL
+    docker exec -it --user="www-data" typo3 touch /var/www/typo3/FIRST_INSTALL
 
 Get containers's IP adress:
 
