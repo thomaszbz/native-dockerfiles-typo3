@@ -104,6 +104,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes graphicsmagick
 
 RUN sed --in-place 's!/var/www/html!/var/www/typo3\
 \n\t<Directory /var/www/typo3>\
+\n\t\tAllowOverride Indexes FileInfo\
 \n\t\t<IfModule mod_php5.c>\
 \n\t\t\tphp_admin_value upload_max_filesize "10M"\
 \n\t\t\tphp_admin_value post_max_size "15M"\
