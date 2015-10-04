@@ -179,6 +179,13 @@ sophisticated approach you might want to have a look at Markus Blaschke's
 [TYPO3-docker-boilerplate](https://github.com/webdevops/TYPO3-docker-boilerplate) which provides tons of
 additional features and runs with multiple operation systems including GNU/Linux, Windows and OSX.
 
+## Donations
+
+You can motivate us to continue work on this project by donating to a good cause of your choice. We suggest
+donations to the [Red Cross refugee help](http://www.drk.de/aktuelles/fokusthemen/fluechtlingshilfe.html).
+Please tell us about your donation via
+[List of donations](https://github.com/thomaszbz/native-dockerfiles-typo3/issues/26).
+
 ## Copyright, license and contribution
 
 &copy; 2015 Thomas Mayer. The content of this repository is [MIT-licensed](./LICENSE).
