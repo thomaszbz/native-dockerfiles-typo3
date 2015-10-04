@@ -46,9 +46,7 @@ RUN echo "<?php\n\$GLOBALS['TYPO3_CONF_VARS']['SYS']['systemLocale']='en_US.UTF-
 RUN cd /var/www/typo3 && \
 ln -s ../../webadmin/typo3_src typo3_src && \
 ln -s typo3_src/index.php index.php && \
-ln -s typo3_src/typo3 typo3 && \
-ln -s typo3_src/composer.json && \
-ln -s typo3_src/composer.lock
+ln -s typo3_src/typo3 typo3
 
 # Give webadmin read and write access to DocumentRoot directory structure
 # This has no effect to files in the file share which are not mounted at this time.
@@ -106,10 +104,13 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes graphicsmagick
 
 RUN sed --in-place 's!/var/www/html!/var/www/typo3\
 \n\t<Directory /var/www/typo3>\
+\n\t\tAllowOverride Indexes FileInfo\
 \n\t\t<IfModule mod_php5.c>\
 \n\t\t\tphp_admin_value upload_max_filesize "10M"\
 \n\t\t\tphp_admin_value post_max_size "15M"\
 \n\t\t\tphp_admin_value max_execution_time "240"\
+\n\t\t\tphp_admin_value max_input_vars "1500"\
+\n\t\t\tphp_admin_value always_populate_raw_post_data "-1"\
 \n\t\t</IfModule>\
 \n\t</Directory>\
 !g' /etc/apache2/sites-available/000-default.conf

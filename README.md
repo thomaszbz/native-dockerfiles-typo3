@@ -104,9 +104,13 @@ The created container should also keep running in detached mode:
 
 ## Maintain TYPO3 CMS instance
 
-Install or update TYPO3 CMS dependencies to the pinned version in the repository:
+Remove TYPO3 CMS composer dependencies:
 
-    docker exec -it  --user="webadmin" typo3 /bin/bash -c 'cd /var/www/typo3; composer install'
+    docker exec -it  --user="webadmin" typo3 /bin/bash -c 'cd /var/webadmin/typo3_src && rm -Rf vendor/* bin/* Packages/Libraries/* typo3/vendor/*'
+
+Install or update TYPO3 CMS composer dependencies to the pinned version in the repository:
+
+    docker exec -it  --user="webadmin" typo3 /bin/bash -c 'cd /var/webadmin/typo3_src && composer install -o'
 
 Start MySQL:
 
@@ -119,6 +123,7 @@ Start Apache web server:
 Enable TYPO3's [install tool](https://docs.typo3.org/typo3cms/SecurityGuide/GuidelinesIntegrators/InstallTool/Index.html):
 
     docker exec -it --user="www-data" typo3 touch /var/www/typo3/typo3conf/ENABLE_INSTALL_TOOL
+    docker exec -it --user="www-data" typo3 touch /var/www/typo3/FIRST_INSTALL
 
 Get containers's IP adress:
 
