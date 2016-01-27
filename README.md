@@ -4,8 +4,6 @@
 [![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/thomaszbz/native-dockerfiles-typo3.svg)](https://isitmaintained.com/project/thomaszbz/native-dockerfiles-typo3 "Average time to resolve an issue")
 [![Percentage of issues still open](https://isitmaintained.com/badge/open/thomaszbz/native-dockerfiles-typo3.svg)](https://isitmaintained.com/project/thomaszbz/native-dockerfiles-typo3 "Percentage of issues still open")
 
-//piwik.2bis10.de/piwik.php?idsite=5
-
 This repository provides Dockerfiles to create basic test environments for TYPO3 CMS developers and integrators.
 
 This manual describes how to create a Docker image and a running Docker container to test TYPO3 CMS
