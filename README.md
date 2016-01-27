@@ -4,6 +4,8 @@
 [![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/thomaszbz/native-dockerfiles-typo3.svg)](https://isitmaintained.com/project/thomaszbz/native-dockerfiles-typo3 "Average time to resolve an issue")
 [![Percentage of issues still open](https://isitmaintained.com/badge/open/thomaszbz/native-dockerfiles-typo3.svg)](https://isitmaintained.com/project/thomaszbz/native-dockerfiles-typo3 "Percentage of issues still open")
 
+//piwik.2bis10.de/piwik.php?idsite=5
+
 This repository provides Dockerfiles to create basic test environments for TYPO3 CMS developers and integrators.
 
 This manual describes how to create a Docker image and a running Docker container to test TYPO3 CMS
@@ -179,7 +181,16 @@ sophisticated approach you might want to have a look at Markus Blaschke's
 [TYPO3-docker-boilerplate](https://github.com/webdevops/TYPO3-docker-boilerplate) which provides tons of
 additional features and runs with multiple operation systems including GNU/Linux, Windows and OSX.
 
+## Donations
+
+You can motivate us to continue work on this project by donating to a good cause of your choice. We suggest
+donations to the [Red Cross refugee help](http://www.drk.de/aktuelles/fokusthemen/fluechtlingshilfe.html).
+Please tell us about your donation via
+[List of donations](https://github.com/thomaszbz/native-dockerfiles-typo3/issues/26).
+
 ## Copyright, license and contribution
 
 &copy; 2015 Thomas Mayer. The content of this repository is [MIT-licensed](./LICENSE).
 In case you want to make contributions I assume that the [MIT-license](./LICENSE) also applies for the code you provide.
+
+[![PHP development brought to you by 2bis10 IT-Services UG (haftungsbeschränkt)](https://www.2bis10.de/fileadmin/templates/2bis10/img/favicon.svg)](https://www.2bis10.de "PHP development brought to you by 2bis10 IT-Services UG (haftungsbeschränkt)")
