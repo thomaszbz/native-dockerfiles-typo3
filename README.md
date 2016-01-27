@@ -192,4 +192,4 @@ Please tell us about your donation via
 In case you want to make contributions I assume that the [MIT-license](./LICENSE) also applies for the code you provide.
 
 [![PHP development brought to you by 2bis10 IT-Services UG (haftungsbeschränkt)](https://www.2bis10.de/fileadmin/templates/2bis10/img/favicon.svg)](https://www.2bis10.de "PHP development brought to you by 2bis10 IT-Services UG (haftungsbeschränkt)")
-![Piwik](https://piwik.2bis10.de/piwik.php?idsite=5)
+![Piwik](https://piwik.2bis10.de/piwik.php?idsite=5&rec=1&url=https://github.com/thomaszbz/native-dockerfiles-typo3)
