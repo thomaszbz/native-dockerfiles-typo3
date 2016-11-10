@@ -104,9 +104,13 @@ The created container should also keep running in detached mode:
 
 ## Maintain TYPO3 CMS instance
 
-Install or update TYPO3 CMS dependencies to the pinned version in the repository:
+Remove TYPO3 CMS composer dependencies:
 
-    docker exec -it  --user="webadmin" typo3 /bin/bash -c 'cd /var/www/typo3; composer install'
+    docker exec -it  --user="webadmin" typo3 /bin/bash -c 'cd /var/webadmin/typo3_src && rm -Rf vendor/* bin/* Packages/Libraries/* typo3/vendor/*'
+
+Install or update TYPO3 CMS composer dependencies to the pinned version in the repository:
+
+    docker exec -it  --user="webadmin" typo3 /bin/bash -c 'cd /var/webadmin/typo3_src && composer install -o'
 
 Start MySQL:
 
@@ -119,6 +123,7 @@ Start Apache web server:
 Enable TYPO3's [install tool](https://docs.typo3.org/typo3cms/SecurityGuide/GuidelinesIntegrators/InstallTool/Index.html):
 
     docker exec -it --user="www-data" typo3 touch /var/www/typo3/typo3conf/ENABLE_INSTALL_TOOL
+    docker exec -it --user="www-data" typo3 touch /var/www/typo3/FIRST_INSTALL
 
 Get containers's IP adress:
 
@@ -174,7 +179,17 @@ sophisticated approach you might want to have a look at Markus Blaschke's
 [TYPO3-docker-boilerplate](https://github.com/webdevops/TYPO3-docker-boilerplate) which provides tons of
 additional features and runs with multiple operation systems including GNU/Linux, Windows and OSX.
 
+## Donations
+
+You can motivate us to continue work on this project by donating to a good cause of your choice. We suggest
+donations to the [Red Cross refugee help](http://www.drk.de/aktuelles/fokusthemen/fluechtlingshilfe.html).
+Please tell us about your donation via
+[List of donations](https://github.com/thomaszbz/native-dockerfiles-typo3/issues/26).
+
 ## Copyright, license and contribution
 
 &copy; 2015 Thomas Mayer. The content of this repository is [MIT-licensed](./LICENSE).
 In case you want to make contributions I assume that the [MIT-license](./LICENSE) also applies for the code you provide.
+
+[![PHP development brought to you by 2bis10 IT-Services UG (haftungsbeschränkt)](https://www.2bis10.de/fileadmin/templates/2bis10/img/favicon.svg)](https://www.2bis10.de "PHP development brought to you by 2bis10 IT-Services UG (haftungsbeschränkt)")
+![Piwik](https://piwik.2bis10.de/piwik.php?idsite=5&rec=1&url=https://github.com/thomaszbz/native-dockerfiles-typo3)
