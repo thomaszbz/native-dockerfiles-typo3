@@ -182,7 +182,7 @@ additional features and runs with multiple operation systems including GNU/Linux
 ## Donations
 
 You can motivate us to continue work on this project by donating to a good cause of your choice. We suggest
-donations to the [Red Cross refugee help](http://www.drk.de/aktuelles/fokusthemen/fluechtlingshilfe.html).
+donations to the [Red Cross refugee help](https://www.drk.de/en/).
 Please tell us about your donation via
 [List of donations](https://github.com/thomaszbz/native-dockerfiles-typo3/issues/26).
 
