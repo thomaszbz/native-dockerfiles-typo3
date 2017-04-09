@@ -182,13 +182,13 @@ additional features and runs with multiple operation systems including GNU/Linux
 ## Donations
 
 You can motivate us to continue work on this project by donating to a good cause of your choice. We suggest
-donations to the [Red Cross refugee help](http://www.drk.de/aktuelles/fokusthemen/fluechtlingshilfe.html).
+donations to the [Red Cross refugee help](https://www.drk.de/en/).
 Please tell us about your donation via
 [List of donations](https://github.com/thomaszbz/native-dockerfiles-typo3/issues/26).
 
 ## Copyright, license and contribution
 
-&copy; 2015 Thomas Mayer. The content of this repository is [MIT-licensed](./LICENSE).
+&copy; 2015-2016 Thomas Mayer. The content of this repository is [MIT-licensed](./LICENSE).
 In case you want to make contributions I assume that the [MIT-license](./LICENSE) also applies for the code you provide.
 
 [![PHP development brought to you by 2bis10 IT-Services UG (haftungsbeschränkt)](https://www.2bis10.de/fileadmin/templates/2bis10/img/favicon.svg)](https://www.2bis10.de "PHP development brought to you by 2bis10 IT-Services UG (haftungsbeschränkt)")

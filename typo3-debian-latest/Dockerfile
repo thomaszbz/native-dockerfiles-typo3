@@ -1,5 +1,5 @@
 # This content is part of the native-dockerfiles project and released under the MIT License (see attached LICENSE file)
-# (c) 2015 Thomas Mayer
+# (c) 2015-2016 Thomas Mayer
 # Get the latest version at https://github.com/thomaszbz/native-dockerfiles-typo3
 
 FROM debian:latest
