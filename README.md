@@ -66,9 +66,10 @@ Test Docker installation:
 
     docker run hello-world
 
-Download image:
+Download base images:
 
-    docker pull debian:latest
+    docker pull debian:jessie
+    docker pull debian:stretch
 
 List Docker images:
 
@@ -79,7 +80,8 @@ List Docker images:
 Cd to the directory which contains the ``Dockerfile``.
 
     cd /path/to/workspace
-    cd native-dockerfiles-typo3/typo3-debian-latest
+    cd native-dockerfiles-typo3/typo3-debian-jessie # For TYPO3 CMS 6.2 or 7.6
+    cd native-dockerfiles-typo3/typo3-debian-stretch # For TYPO3 CMS 7.6 or 8.7 or 9.x
 
 Open the ``Dockerfile`` and replace ``1000`` with your UID/GID (must correspond to the owner of the files
 which shall be shared to the container).
@@ -134,7 +136,7 @@ The TYPO3 CMS instance should now be accessible via http. Just enter the IP in a
 You can follow the instructions of the TYPO3 CMS installation procedures while the database will be accessible
 with
 
-    user: root
+    user: admin
     password: {{password}}
 
 ## Maintain Docker container
