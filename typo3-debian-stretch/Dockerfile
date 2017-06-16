@@ -25,7 +25,7 @@ ENV SHARE_GID=1000
 # That way, you can simulate permissions for www-data when using a webadmin-like non-root-user on a production system.
 
 RUN groupadd --gid $SHARE_GID $SHARE_GROUP
-RUN useradd --gid $SHARE_GROUP --uid $SHARE_UID $SHARE_USER
+RUN adduser --system --quiet --disabled-password --gid $SHARE_GID --uid $SHARE_UID $SHARE_USER
 RUN mkdir -p /var/webadmin
 RUN chown $SHARE_USER:$SHARE_GROUP /var/webadmin
 
