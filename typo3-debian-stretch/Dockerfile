@@ -1,8 +1,8 @@
 # This content is part of the native-dockerfiles project and released under the MIT License (see attached LICENSE file)
-# (c) 2015-2016 Thomas Mayer
+# (c) 2015-2017 Thomas Mayer
 # Get the latest version at https://github.com/thomaszbz/native-dockerfiles-typo3
 
-FROM debian:latest
+FROM debian:stretch
 MAINTAINER Thomas Mayer "thomas.mayer@2bis10.de"
 
 LABEL Description="Provides basic test environment for TYPO3 CMS developers"
@@ -54,23 +54,26 @@ ln -s typo3_src/typo3 typo3
 RUN chown -R webadmin:webadmin /var/www/typo3
 
 # Make sure we are not asked for a MySQL password while we provision
+# queried with a
+# apt-get install debconf-utils
+# debconf-get-selections | grep mariadb
 
-RUN echo "mysql-server-5.5 mysql-server/root_password password {{password}}" | debconf-set-selections
-RUN echo "mysql-server-5.5 mysql-server/root_password_again password {{password}}" | debconf-set-selections
+# enter noninteractive mode
+# ENV DEBIAN_FRONTEND noninteractive
 
 # Update apt sources and installed packages
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
-DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes apt-utils && \
+DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes --no-install-recommends apt-utils && \
 DEBIAN_FRONTEND=noninteractive apt-get upgrade -y --force-yes
 
 # Create and configure locales
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes locales
-ENV LANGUAGE=en_US.UTF-8
-ENV LC_ALL=en_US.UTF-8
-ENV LANG=en_US.UTF-8
-ENV LC_TYPE=en_US.UTF-8
+ENV LANGUAGE="en_US.UTF-8"
+ENV LC_ALL="en_US.UTF-8"
+ENV LANG="en_US.UTF-8"
+ENV LC_TYPE="en_US.UTF-8"
 
 RUN echo 'en_US.UTF-8' > /etc/default/locale && \
 echo 'LANGUAGE=en_US.UTF-8' >> /etc/environment && \
@@ -85,9 +88,17 @@ update-locale
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes wget curl net-tools vim git man-db inotify-tools locate
 
-# Install MySQL database packages
-
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes mysql-server mysql-client
+# Install MySQL or MariaDB
+RUN { \
+        echo "mariadb-server-10.1 mysql-server/root_password password {{password}}"; \
+        echo "mariadb-server-10.1 mysql-server/root_password_again password {{password}}"; \
+    } | debconf-set-selections && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes mariadb-server mariadb-client && \
+    service mysql start && \
+    { \
+        echo "GRANT ALL PRIVILEGES ON  *.* to 'admin'@'localhost' IDENTIFIED VIA mysql_native_password USING '*91C9ACF388E2B2FF6A52A25DFCA4B1160583989B' WITH GRANT OPTION;"; \
+        echo "FLUSH PRIVILEGES;"; \
+    } | mysql
 
 # Install Apache webserver packages
 
@@ -95,7 +106,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes apache2 apache
 
 # Install PHP packages
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes php5 php5-cli libapache2-mod-php5 php5-mysqlnd php5-curl php5-gd php5-apcu
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes php7.0 php7.0-cli libapache2-mod-php7.0 \
+php7.0-mysql php7.0-curl php7.0-gd php7.0-opcache php7.0-xml php7.0-dom php7.0-zip php7.0-mbstring php7.0-soap php-apcu
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes graphicsmagick
 
 # Configure Apache default vHost
@@ -105,7 +117,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes graphicsmagick
 RUN sed --in-place 's!/var/www/html!/var/www/typo3\
 \n\t<Directory /var/www/typo3>\
 \n\t\tAllowOverride Indexes FileInfo\
-\n\t\t<IfModule mod_php5.c>\
+\n\t\t<IfModule mod_php7.c>\
 \n\t\t\tphp_admin_value upload_max_filesize "10M"\
 \n\t\t\tphp_admin_value post_max_size "15M"\
 \n\t\t\tphp_admin_value max_execution_time "240"\
@@ -122,7 +134,7 @@ chmod -R 775 /var/www/typo3/typo3conf
 
 # apcu cache gets 128MB of memory (default was 32 MB)
 
-RUN echo "apc.shm_size=128M" > /etc/php5/apache2/conf.d/20-apcu-custom.ini
+RUN echo "apc.shm_size=128M" > /etc/php/7.0/apache2/conf.d/20-apcu-custom.ini
 
 # Enable PHP modules
 
@@ -144,3 +156,6 @@ RUN gpasswd -a webadmin www-data
 # Install composer globally
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# reenter interactive mode
+# ENV DEBIAN_FRONTEND teletype
