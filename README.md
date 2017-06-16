@@ -9,7 +9,7 @@ This repository provides Dockerfiles to create basic test environments for TYPO3
 This manual describes how to create a Docker image and a running Docker container to test TYPO3 CMS
 and TYPO3 extensions against a running instance of [TYPO3 CMS](https://typo3.org/).
 
-This manual is written for an ubuntu 14.04.3 host system with Linux kernel version 3.19.
+This manual is written for an ubuntu 16.04 host system with Linux kernel version 4.4.
 It should also apply to most Debian-based systems with a recent Linux kernel. Other distros might require
 minor changes. Other operating systems than GNU/Linux are not covered by this manual (e. g. Windows, OSX).
 
@@ -32,8 +32,10 @@ The content of this repository is [MIT-licensed](./LICENSE).
 * Allows you to edit your project's source code in your IDE without having to sync files (via ssh or ftp)
 * Allows to add one or multiple TYPO3 extensions via file share
 * Provides a user with name ``webadmin`` for the UID/GID mapping to your host system user (your UID/GID)
-* Minimalistic approach using Docker's basic provisioning (no Vagrant/Chef/Puppet/etc. required) and run by docker natively
-  (without further virtualization technology like vmware, VirtualBox, KVM, etc.)
+* Minimalistic approach using Docker's basic provisioning (no Vagrant/Chef/Puppet/etc. required) and run by docker
+  natively (without further virtualization technology like vmware, VirtualBox, KVM, etc.)
+* Fully benefits of CoW file systems which are supported by Docker (like BTRFS). Adding a new container won't
+  consume more than a few megabytes once the base image is created.
 
 ## Prerequisites
 
@@ -54,13 +56,16 @@ Check out a version you want to run your tests against
 
 ### Install Docker
 
-[Install Docker](http://docs.docker.com/installation/) 1.8.1+ on an ubuntu 14.04.3 host system (as root user):
+[Install Docker](http://docs.docker.com/installation/) version 1.8.1 at least (Kernel 3.19 is known to work).
+After becoming root with a `sudo su - root`, remove old Docker related repository entries in `/etc/apt/sources.list`
+and `/etc/apt/sources.list.d` and install Docker 17 community edition on Ubuntu 16.04 with
 
-    apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-    echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sources.list.d/docker-testing-trusty.list
+    apt-get remove docker docker-engine
+    apt-get install apt-transport-https ca-certificates curl software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
     apt-get update
-    apt-get upgrade
-    apt-get install docker-engine
+    apt-get install docker-ce
 
 Test Docker installation:
 
