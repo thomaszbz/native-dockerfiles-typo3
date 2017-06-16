@@ -64,12 +64,12 @@ RUN chown -R webadmin:webadmin /var/www/typo3
 # Update apt sources and installed packages
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
-DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes --no-install-recommends apt-utils && \
-DEBIAN_FRONTEND=noninteractive apt-get upgrade -y --force-yes
+DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apt-utils && \
+DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
 # Create and configure locales
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes locales
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y locales
 ENV LANGUAGE="en_US.UTF-8"
 ENV LC_ALL="en_US.UTF-8"
 ENV LANG="en_US.UTF-8"
@@ -86,14 +86,14 @@ update-locale
 
 # Install basic packages every GNU/Linux developer system should have
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes wget curl net-tools vim git man-db inotify-tools locate
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y wget curl net-tools vim git man-db inotify-tools locate
 
 # Install MySQL or MariaDB
 RUN { \
         echo "mariadb-server-10.1 mysql-server/root_password password {{password}}"; \
         echo "mariadb-server-10.1 mysql-server/root_password_again password {{password}}"; \
     } | debconf-set-selections && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes mariadb-server mariadb-client && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y mariadb-server mariadb-client && \
     service mysql start && \
     { \
         echo "GRANT ALL PRIVILEGES ON  *.* to 'admin'@'localhost' IDENTIFIED VIA mysql_native_password USING '*91C9ACF388E2B2FF6A52A25DFCA4B1160583989B' WITH GRANT OPTION;"; \
@@ -102,13 +102,13 @@ RUN { \
 
 # Install Apache webserver packages
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes apache2 apache2-utils
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y apache2 apache2-utils
 
 # Install PHP packages
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes php7.0 php7.0-cli libapache2-mod-php7.0 \
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y php7.0 php7.0-cli libapache2-mod-php7.0 \
 php7.0-mysql php7.0-curl php7.0-gd php7.0-opcache php7.0-xml php7.0-dom php7.0-zip php7.0-mbstring php7.0-soap php-apcu
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes graphicsmagick
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y graphicsmagick
 
 # Configure Apache default vHost
 
